@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        #listName {
+            min-width: 20em;
+        }
+
+        #anchor {
+            text-decoration: none;
+            font-style: 40px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <h1>Todo App</h1>
+
+    <div>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div style="display: block;">
+            <div style="display: inline-block;">
+                {{ form.listName }}
+            </div>
+            <div valign="top" style="display: inline-block;">
+                {{ form.submit }}
+            </div>
+
+            <div>
+                {% if form.listName.errors %}
+                    <ul>
+                    {% for error in form.listName.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+
+    <ul>
+        {% for item in listItems %}
+            <li>{{ item['todoName'] }} added in {{ item['date'] }} <a id="anchor" href="/delete/{{ item['_id'] }}">x</a></li>
+        {% endfor %}
+    </ul>
+    </center>
+</body>
+</html>
